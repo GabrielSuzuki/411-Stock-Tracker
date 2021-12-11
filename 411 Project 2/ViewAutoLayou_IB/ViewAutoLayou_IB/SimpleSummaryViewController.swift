@@ -4,16 +4,18 @@
 //
 //  Created by Gabriel Suzuki on 12/10/21.
 //
-
+// This program will be used for adding stocks and showing them off on a table.
 import UIKit
 
 class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UITableViewDelegate{
     
+    //finds the number of rows in the table based on the count of listedCompanies
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let cnt = self.listedCompanies.count
         return cnt
     }
     
+    //Fills each cell will the symbol, the shares owned, and the current cost of each stock
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tblView.dequeueReusableCell(withIdentifier: "SimpleStudentSummaryCell", for: indexPath)
         let addText = self.listedCompanies[indexPath.row].symbol + " Cost: $" + String(self.listedCompanies[indexPath.row].close)
@@ -34,6 +36,7 @@ class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UIT
         return cell
     }
     
+    //Allows for the deletion of stocks in both the database and the tableview
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let row = indexPath.row
@@ -44,6 +47,7 @@ class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UIT
         }
     }
 
+    //Uses a API call to find information on the stock and then adds it to the database
     @IBAction func addButtonClicked(_ sender: UIButton) {
         let currentDate = formatDate()
         tblView.reloadData()
@@ -138,9 +142,12 @@ class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UIT
     @IBOutlet var tblView : UITableView!
     var pressed = false
     
+    //I am using this to test some things to refresh the page while running
     @IBAction func refreshBtnClicked(_ sender: UIBarButtonItem) {
         tblView.reloadData()
     }
+    
+    //When clicked the title will change and the editing mode will also change
     @IBAction func delBtnClicked(_ sender: UIButton) {
         if tblView.isEditing {
             sender.setTitle("DELETE", for: .normal)
@@ -150,6 +157,8 @@ class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UIT
             tblView.setEditing(true, animated: true)
         }
     }
+    
+    //it will pull each stock from the database to get the past information and the will make API calls for each one to get the current information on the stock
     override func viewDidLoad() {
         super.viewDidLoad()
         tblView.dataSource = self
@@ -235,17 +244,12 @@ class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UIT
         tblView.reloadData()
     }
 
+    
     override func viewWillAppear(_ animated: Bool) {
-        /*for i in self.listedCompanies {
-            for stock in stocks.getStocksList() {
-                if stock.symbol == i.symbol {
-                    i.amount = stock.amount
-                }
-            }
-        }*/
         tblView.reloadData()
     }
     
+    //When clicking on a cell the program will segue to the other view controller initialize it with information from both the past and current versions of the stock
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segue.identifier {
@@ -272,6 +276,8 @@ class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UIT
             print("Unexpected segure identifier ... ")
         }
     }
+    
+    //function used to find the current date in the correct format
     func formatDate() -> String {
         
         let date = Date()

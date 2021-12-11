@@ -5,7 +5,8 @@
 //  Created by Gabriel Suzuki on 12/10/21.
 //
 
-//import Foundation
+// This program initalizes the table and provides functions to create, delete, and get stocks.
+
 import SQLite
 
 //
@@ -71,6 +72,7 @@ class StockDatabase {
         return instance
     }
     
+    //creates a new stock in the database
     func createStock(stObj : Company) {
         let conn = database.conn!
         let tbl = database.stockTbl!
@@ -78,6 +80,7 @@ class StockDatabase {
         try! conn.run(insStmt)
     }
     
+    //gets the full stock list
     func getStocksList() -> [Company] {
         var list = [Company]()
         let conn = database.conn!
@@ -90,7 +93,7 @@ class StockDatabase {
         return list
     }
     
-    
+    //deletes a stock that it chosen based on the stockId
     func deleteStock(sObj : Company) {
         print("Deleting company : \(sObj.symbol)")
         let tbl = database.stockTbl!

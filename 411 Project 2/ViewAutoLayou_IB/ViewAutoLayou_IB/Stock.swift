@@ -4,8 +4,10 @@
 //
 //  Created by Gabriel Suzuki on 11/17/21.
 //
+// Provides a struct and class to organize the data.
 
 import UIKit
+//struct used to get the information from the JSON
 struct DailyPrices: Codable {
     let date: String
     let open: Double
@@ -15,6 +17,7 @@ struct DailyPrices: Codable {
     let volume : Int
 }
 
+//Class used to organize the information of each stock.
 class Company : Codable{
     var stockID : Int = 0
     var date: String
@@ -46,14 +49,4 @@ class Company : Codable{
     convenience init?(p : Company) {
         self.init(sym: p.symbol, dat: p.date, ope: p.open, hig: p.high, lo: p.low, clo: p.close, vol:p.volume, amo: p.amount, stoID: p.stockID)
     }
-    func formatDate() -> String {
-        
-        let date = Date()
-        let calendar = Calendar.current
-        let year = calendar.component(.year, from: date)
-        let month = calendar.component(.month, from: date)
-        let day = calendar.component(.day, from: date)
-        return (String(year) + "-" + String(month) + "-" + String(day))
-    }
-    //
 }
