@@ -102,9 +102,11 @@ class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UIT
                                             row = self.stocks.getStocksList().count - 1
                                             stockID = self.stocks.getStocksList()[row].stockID + 1
                                         }
-                                        if symbols != nil {
-                                            self.stocks.createStock(stObj: Company(sym: symbols, dat: i.date, ope: i.open, hig: i.high, lo: i.low, clo: i.close, vol: i.volume, /*stdt: currentDate,*/ amo: amount!, stoID: stockID)!)
-                                            self.listedCompanies.append(Company(sym: symbols, dat: i.date, ope: i.open, hig: i.high, lo: i.low, clo: i.close, vol: i.volume, /*stdt: currentDate,*/ amo: amount!, stoID: stockID)!)
+                                        if symbols != "" {
+                                            if i != nil {
+                                                self.stocks.createStock(stObj: Company(sym: symbols, dat: i.date, ope: i.open, hig: i.high, lo: i.low, clo: i.close, vol: i.volume, /*stdt: currentDate,*/ amo: amount!, stoID: stockID)!)
+                                                self.listedCompanies.append(Company(sym: symbols, dat: i.date, ope: i.open, hig: i.high, lo: i.low, clo: i.close, vol: i.volume, /*stdt: currentDate,*/ amo: amount!, stoID: stockID)!)
+                                            }
                                         }
                                        
                                     }
@@ -213,9 +215,13 @@ class SimpleSummaryViewController : UIViewController, UITableViewDataSource, UIT
                             
                             var stockID = 1
                             for i in tempFinalArray {
-                                self.listedCompanies.append(Company(sym: symbols, dat: i.date, ope: i.open, hig: i.high, lo: i.low, clo: i.close, vol: i.volume, amo: amount[count], stoID: stockID)!)
-                                stockID += 1
-                                count += 1
+                                if symbols != "" {
+                                    if i != nil {
+                                        self.listedCompanies.append(Company(sym: symbols, dat: i.date, ope: i.open, hig: i.high, lo: i.low, clo: i.close, vol: i.volume, amo: amount[count], stoID: stockID)!)
+                                           stockID += 1
+                                           count += 1
+                                    }
+                                }
                             }
                             DispatchQueue.main.async {
                                 self.tblView.reloadData()
